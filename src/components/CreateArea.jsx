@@ -1,38 +1,38 @@
 import React, { useState } from "react";
-import AddIcon from "@material-ui/icons/Add";
-import Fab from "@material-ui/core/Fab";
-import Zoom from "@material-ui/core/Zoom";
+import AddIcon from "@mui/icons-material/Add";
+import Fab from "@mui/material/Fab";
+import Zoom from "@mui/material/Zoom";
 
 function CreateArea(props) {
-  const [isExpanded, setExpanded] = useState(false);
+  const [isExpanded, setExpand] = useState(false);
 
-  const [note, setNote] = useState({
+  const [inputNote, setInputNote] = useState({
     title: "",
-    content: ""
+    content: "",
   });
 
-  function handleChange(event) {
-    const { name, value } = event.target;
+  function handleChange(e) {
+    const { name, value } = e.target;
 
-    setNote(prevNote => {
+    setInputNote((preValue) => {
       return {
-        ...prevNote,
-        [name]: value
+        ...preValue,
+        [name]: value,
       };
     });
   }
 
-  function submitNote(event) {
-    props.onAdd(note);
-    setNote({
+  function submitNote(e) {
+    props.onAdd(inputNote);
+    setInputNote({
       title: "",
-      content: ""
+      content: "",
     });
-    event.preventDefault();
+    e.preventDefault();
   }
 
-  function expand() {
-    setExpanded(true);
+  function expandNote() {
+    setExpand(true);
   }
 
   return (
@@ -42,21 +42,21 @@ function CreateArea(props) {
           <input
             name="title"
             onChange={handleChange}
-            value={note.title}
             placeholder="Title"
+            value={inputNote.title}
           />
         )}
 
         <textarea
           name="content"
-          onClick={expand}
           onChange={handleChange}
-          value={note.content}
+          onClick={expandNote}
           placeholder="Take a note..."
+          value={inputNote.content}
           rows={isExpanded ? 3 : 1}
         />
         <Zoom in={isExpanded}>
-          <Fab onClick={submitNote}>
+          <Fab type="submit" onClick={submitNote}>
             <AddIcon />
           </Fab>
         </Zoom>
